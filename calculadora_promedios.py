@@ -26,8 +26,8 @@ def ingresar_calificaciones():
             continue
         # Flujo en el que el usuario desea añadir una materia que ya ha sido ingresada
         elif materia in nombre_materias:
-            modificar_nota = input(f"La materia \"{materia}\" ya ha sido añadida. ¿Quiere modificar su nota? (si/no): ").lower()
-            if modificar_nota != "si":
+            decision_modificar_nota = input(f"La materia \"{materia}\" ya ha sido añadida. ¿Quiere modificar su nota? (si/no): ").lower()
+            if decision_modificar_nota != "si":
                 continue
             else:
                 # Modificación de la nota de la materia ya ingresada
