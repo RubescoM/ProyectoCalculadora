@@ -1,4 +1,4 @@
-def ingresar_calificacicones():
+def ingresar_calificaciones():
     """
     Guarda las materias juntos a las calificaciones pasadas por el usuario.
     
@@ -31,20 +31,8 @@ def ingresar_calificacicones():
                 continue
             else:
                 # Modificación de la nota de la materia ya ingresada
-                try:
-                    calificacion = float(input("Ingrese la calificación (0-10): "))
-                    if 0 <= calificacion <= 10:
-                        indice_materia = nombre_materias.index(materia)
-                        puntuacion_materias[indice_materia] = calificacion
-                        print(f"Calificacion de la materia \"{materia}\" modificada con éxito")
-                        continue
-                    else:
-                        print("La calificación debe estar entre 0 y 10.")
-                        continue
-                except ValueError:
-                    print("Debe ingresar un número válido.")
-                    continue
-                
+                modificar_nota(nombre_materias, puntuacion_materias, materia)
+                continue
         # Ingreso de la nota de una materia no ingresada  anteriormente
         else:                  
             try:
@@ -63,6 +51,29 @@ def ingresar_calificacicones():
     return nombre_materias, puntuacion_materias
 
 
+def modificar_nota(nombre_materias, puntuacion_materias, materia):
+    """
+    Modifica la nota de una materia ya registrada anteriormente.
+    
+    Args:
+        nombre_materias (lista): Lista con los nombres de todas las materias ingresadas por el usuario
+        puntuacion_materias (lista): Lista con las calificaciones de todas las materias ingresadas por el usuario
+        materia (string): materia que se requiere moficiar su puntuación
+    """
+    
+    # Modificación de la nota de la materia ya ingresada
+    try:
+        calificacion = float(input("Ingrese la calificación (0-10): "))
+        if 0 <= calificacion <= 10:
+            indice_materia = nombre_materias.index(materia)
+            puntuacion_materias[indice_materia] = calificacion
+            print(f"Calificacion de la materia \"{materia}\" modificada con éxito")
+        else:
+            print("La calificación debe estar entre 0 y 10.")
+    except ValueError:
+        print("Debe ingresar un número válido.")  
+
+
 def calcular_promedio(calificaciones):
     """
     Guarda las materias juntos a las calificaciones pasadas por el usuario.
@@ -73,6 +84,10 @@ def calcular_promedio(calificaciones):
     Returns:
         promedio: promedio de todas las clasificaciones del input calificaciones
     """
+    
+    # Validación de datos en la lista
+    if not calificaciones:
+        return
     
     # Suma de todas las clasificaciones
     suma_total = 0.0
@@ -118,11 +133,11 @@ def determinar_estado(calificaciones, umbral):
     indices_suspendidas = []
     
     # Bloque de añadido de los indices a las listas
-    for califacacion in calificaciones:
-        if califacacion >= umbral:
-            indices_aprobadas.append(calificaciones.index(califacacion))
+    for i, calificacion in enumerate(calificaciones):
+        if calificacion >= umbral:
+            indices_aprobadas.append(i)
         else:
-            indices_suspendidas.append(calificaciones.index(califacacion))
+            indices_suspendidas.append(i)
     
     # Retorno de ambas listas
     return indices_aprobadas, indices_suspendidas
@@ -140,13 +155,18 @@ def encontrar_extremos(calificaciones):
             · Float1: Calificación más alta.
             · Float2: Calificación más baja.
     """
+    
     # Retorno de las dos clasificaciones
     return calificaciones.index(max(calificaciones)), calificaciones.index(min(calificaciones))
 
     
 def main():
+    """
+    Función principal en la que producen las llamadas para obtener los datos que serán mostrados por pantalla.
+    """
+    
     # Ingreso de calificaciones por parte del usuario
-    materias, calificaciones = ingresar_calificacicones()
+    materias, calificaciones = ingresar_calificaciones()
     
     if not materias:
         print ("No se añadió ninguna materia. Saliendo del programa...")
